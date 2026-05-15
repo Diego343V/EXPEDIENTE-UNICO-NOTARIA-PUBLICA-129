@@ -442,24 +442,24 @@
 
         document.getElementById('fecha-actual').value = new Date().toLocaleDateString();
         // 1. SISTEMA DE LOGIN (VENTANA DEL NAVEGADOR)
-        window.onload = function() {
-            let contrasenaCorrecta = "NOT129";
-            let accesoConcedido = false;
-
-            while (!accesoConcedido) {
-                let intento = prompt("🔒 Acceso Restringido.\nPor favor, ingresa la contraseña de la Notaría:");
-                
-                if (intento === contrasenaCorrecta) {
-                    accesoConcedido = true;
-                } else if (intento === null) {
-                    // Si le dan a "Cancelar", borramos la página para que no vean nada
-                    document.body.innerHTML = "<h1 style='color:white; margin-top:50px; text-align:center;'>Acceso Denegado</h1>";
-                    break;
-                } else {
-                    alert("Contraseña incorrecta. Intenta de nuevo.");
-                }
-            }
-        };
+      //  window.onload = function() {
+    //        let contrasenaCorrecta = "NOT129";
+  //          let accesoConcedido = false;
+//
+//            while (!accesoConcedido) {
+          //      let intento = prompt("🔒 Acceso Restringido.\nPor favor, ingresa la contraseña de la Notaría:");
+        //        
+           //     if (intento === contrasenaCorrecta) {
+         //           accesoConcedido = true;
+       //         } else if (intento === null) {
+       //             // Si le dan a "Cancelar", borramos la página para que no vean nada
+       //             document.body.innerHTML = "<h1 style='color:white; margin-top:50px; text-align:center;'>Acceso Denegado</h1>";
+        //            break;
+        //        } else {
+       //             alert("Contraseña incorrecta. Intenta de nuevo.");
+       //         }
+       //     }
+       // };
         // Bloquear click derecho
         document.addEventListener('contextmenu', function(event) {
             event.preventDefault();
