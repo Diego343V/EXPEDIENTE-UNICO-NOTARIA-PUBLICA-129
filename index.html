@@ -441,6 +441,42 @@
         }
 
         document.getElementById('fecha-actual').value = new Date().toLocaleDateString();
+        // 1. SISTEMA DE LOGIN (VENTANA DEL NAVEGADOR)
+        window.onload = function() {
+            let contrasenaCorrecta = "NOT129";
+            let accesoConcedido = false;
+
+            while (!accesoConcedido) {
+                let intento = prompt("🔒 Acceso Restringido.\nPor favor, ingresa la contraseña de la Notaría:");
+                
+                if (intento === contrasenaCorrecta) {
+                    accesoConcedido = true;
+                } else if (intento === null) {
+                    // Si le dan a "Cancelar", borramos la página para que no vean nada
+                    document.body.innerHTML = "<h1 style='color:white; margin-top:50px; text-align:center;'>Acceso Denegado</h1>";
+                    break;
+                } else {
+                    alert("Contraseña incorrecta. Intenta de nuevo.");
+                }
+            }
+        };
+        // Bloquear click derecho
+        document.addEventListener('contextmenu', function(event) {
+            event.preventDefault();
+        });
+
+        // Bloquear atajos de teclado para Inspeccionar (F12, Ctrl+Shift+I, Ctrl+U)
+        document.onkeydown = function(event) {
+            if (event.keyCode == 123) { // F12
+                return false;
+            }
+            if (event.ctrlKey && event.shiftKey && event.keyCode == 73) { // Ctrl+Shift+I
+                return false;
+            }
+            if (event.ctrlKey && event.keyCode == 85) { // Ctrl+U (Ver código fuente)
+                return false;
+            }
+        };
     </script>
 </body>
 </html>
