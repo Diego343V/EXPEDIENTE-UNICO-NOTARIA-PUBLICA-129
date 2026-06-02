@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Anexo 3 - Notaría 129</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        :root {
+            --primary-blue: #2c3e50;
+            --header-bg: #5d6d7e;
+            --border-color: #bdc3c7;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #d1d1d1;
+            margin: 0;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            user-select: none;
+        }
+
+        #form-content {
+            background-color: white;
+            width: 760px; 
+            padding: 10px 30px 20px 30px; 
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+            box-sizing: border-box;
+            margin: 0 auto;
+        }
+
+        .header-top {
+            font-size: 9px;
+            text-align: center;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* ENCABEZADO */
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--primary-blue);
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+        .logo-container { width: 85px; display: flex; align-items: center; }
+        .logo-img { width: 75px; height: auto; }
+
+        .notary-info { text-align: center; flex-grow: 1; padding: 0 10px; }
+        .notary-info h1 { margin: 0; font-size: 19px; color: var(--primary-blue); }
+        .notary-info h2 { margin: 2px 0; font-size: 15px; font-weight: normal; }
+
+        .section-title {
+            background-color: var(--header-bg);
+            color: white;
+            text-align: center;
+            padding: 4px;
+            font-weight: bold;
+            font-size: 13px;
+            margin: 8px 0 6px 0;
+            text-transform: uppercase;
+        }
+
+        .row { display: flex; gap: 10px; margin-bottom: 4px; width: 100%; }
+        .field { display: flex; flex-direction: column; flex: 1; }
+
+        label { font-size: 10px; font-weight: bold; color: #555; margin-bottom: 1px; text-transform: uppercase; }
+
+        input[type="text"], input[type="date"], input[type="email"], select:not(.toggle-select) {
+            border: none;
+            border-bottom: 1px solid var(--border-color);
+            padding: 2px 0;
+            font-size: 12px;
+            background: transparent;
+            outline: none;
+            font-family: inherit;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        input[type="checkbox"] { width: auto; margin: 0 5px 0 0; cursor: pointer; }
+
+        /* Tabla de documentos */
+        .doc-table { width: 100%; border-collapse: collapse; margin: 10px 0; page-break-inside: avoid; }
+        .doc-table th, .doc-table td { border: 1px solid var(--border-color); padding: 6px; font-size: 12px; text-align: left; }
+        .doc-table th { background: #f2f2f2; text-align: center; font-weight: bold; }
+        .center { text-align: center !important; }
+
+        .legend-box { font-size: 10px; text-align: justify; border: 1px solid #eee; padding: 8px; margin: 10px 0; font-style: italic; color: #444; line-height: 1.3; }
+
+        .signature-section {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            page-break-inside: avoid;
+        }
+
+        .sig-box { width: 400px; text-align: center; }
+        .sig-line { border-top: 1px solid black; margin-top: 35px; padding-top: 3px; font-size: 11px; font-weight: bold; text-transform: uppercase; min-height: 20px; }
+
+        .controls { position: fixed; left: 15px; top: 15px; display: flex; flex-direction: column; gap: 8px; z-index: 1000; }
+        button { padding: 8px 15px; cursor: pointer; border: none; border-radius: 4px; font-weight: bold; color: white; }
+        .btn-pdf { background-color: #27ae60; }
+        .btn-clear { background-color: #e74c3c; }
+        
+        .toggle-select { font-size: 10px; margin-left: 10px; border: 1px solid #ccc; color: black; background: white; cursor: pointer; padding: 1px 4px; width: auto !important; }
+        
+        #sec-apoderado { page-break-inside: avoid; }
+    </style>
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/3NY9rgmB/Logo-Enhanced.png">
+</head>
+<body>
+
+    <div class="controls">
+        <button class="btn-pdf" onclick="generarPDF()">DESCARGAR PDF</button>
+        <button class="btn-clear" onclick="location.reload()">REINICIAR</button>
+    </div>
+
+    <div id="form-content">
+        <div class="main-header">
+            <div class="logo-container">
+                <img src="https://i.postimg.cc/3NY9rgmB/Logo-Enhanced.png" class="logo-img" alt="Logo" crossorigin="anonymous">
+            </div>
+            <div class="notary-info">
+                <h1>NOTARIO PÚBLICO NO. 129</h1>
+                <h2>MAESTRO EN DERECHO JOSÉ GODÍNEZ ARGÜELLO</h2>
+                <strong style="font-size: 13px; display: block; margin-top: 4px;">ANEXO 3 - IDENTIFICACIÓN DE CLIENTES</strong>
+            </div>
+            <div style="width: 85px;"></div>
+        </div>
+
+        <div class="section-title">IDENTIFICACIÓN Y CONOCIMIENTO DEL CLIENTE O USUARIO</div>
+        
+        <div class="row">
+            <div class="field" style="flex: 2;"><label>NOMBRE(S)</label><input type="text" id="input-nombre"></div>
+            <div class="field"><label>APELLIDO PATERNO</label><input type="text" id="input-paterno"></div>
+            <div class="field"><label>APELLIDO MATERNO</label><input type="text" id="input-materno"></div>
+        </div>
+
+        <div class="row">
+            <div class="field"><label>FECHA DE NACIMIENTO</label><input type="date"></div>
+            <div class="field"><label>PAÍS DE NACIMIENTO</label><input type="text"></div>
+        </div>
+
+        <div class="row">
+            <div class="field">
+                <label>ESTADO, PROVINCIA, CIUDAD MUNICIPIO (ESTADO)</label>
+                <select id="edo-select" onchange="actualizarMunicipios()"><option value="">Seleccione...</option></select>
+            </div>
+            <div class="field">
+                <label>MUNICIPIO / CIUDAD</label>
+                <select id="mun-select"><option value="">-- Estado primero --</option></select>
+            </div>
+            <div class="field"><label>NACIONALIDAD</label><input type="text"></div>
+        </div>
+
+        <div class="row">
+            <div class="field"><label>ACTIVIDAD, OCUPACIÓN, PROFESIÓN, ACTIVIDAD O GIRO DE NEGOCIO A QUE SE DEDIQUE</label><input type="text"></div>
+        </div>
+
+        <div class="row">
+            <div class="field"><label>INGRESOS MENSUALES PROMEDIO</label><input type="text" placeholder="$"></div>
+            <div class="field"><label>RÉGIMEN FISCAL</label><input type="text"></div>
+        </div>
+
+        <div class="row">
+            <div class="field"><label>ESTADO CIVIL (EN CASO DE MATRIMONIO ESPECIFICAR RÉGIMEN CONYUGAL)</label><input type="text"></div>
+        </div>
+
+        <div class="row">
+            <div class="field"><label>¿DESEMPEÑA A CARGO PÚBLICO O LO HA DESEMPEÑADO EN EL ÚLTIMO AÑO? (ESPECIFICAR)</label><input type="text"></div>
+        </div>
+
+        <div class="row">
+            <div class="field"><label>¿ALGÚN PARIENTE HASTA EL SEGUNDO GRADO, CÓNYUGE, CONCUBINA (O) OCUPA O HA OCUPADO UN CARGO PÚBLICO EN EL ÚLTIMO AÑO? (ESPECIFICAR)</label><input type="text"></div>
+        </div>
+
+        <div class="section-title">DATOS DE CONTACTO DEL CLIENTE O USUARIO</div>
+
+        <div class="row">
+            <div class="field" style="flex: 2.5;"><label>DOMICILIO: CALLE, AVENIDA O VÍA</label><input type="text"></div>
+            <div class="field"><label>NÚMERO EXTERIOR</label><input type="text"></div>
+            <div class="field"><label>NÚMERO INTERIOR</label><input type="text"></div>
+        </div>
+
+        <div class="row">
+            <div class="field"><label>COLONIA O URBANIZACIÓN</label><input type="text"></div>
+            <div class="field"><label>MUNICIPIO O DEMARCACIÓN POLÍTICA SIMILAR</label><input type="text"></div>
+        </div>
+
+        <div class="row">
+            <div class="field"><label>CIUDAD O POBLACIÓN</label><input type="text"></div>
+            <div class="field"><label>ENTIDAD FEDERATIVA, ESTADO, PROVINCIA, DEPARTAMENTO O DEMARCACIÓN POLÍTICA SIMILAR</label><input type="text"></div>
+        </div>
+
+        <div class="row">
+            <div class="field"><label>CÓDIGO POSTAL</label><input type="text"></div>
+            <div class="field"><label>PAÍS</label><input type="text" value="MÉXICO"></div>
+        </div>
+
+        <div class="row">
+            <div class="field"><label>NÚMERO DE TELÉFONO FIJO</label><input type="text"></div>
+            <div class="field"><label>NÚMERO DE TELÉFONO CELULAR</label><input type="text"></div>
+            <div class="field" style="flex: 1.5;"><label>CORREO ELECTRÓNICO</label><input type="email"></div>
+        </div>
+
+        <div class="section-title">DATOS ADICIONALES DEL CLIENTE O USUARIO</div>
+
+        <div class="row">
+            <div class="field"><label>CURP</label><input type="text"></div>
+            <div class="field"><label>RFC</label><input type="text"></div>
+        </div>
+
+        <div class="row">
+            <div class="field" style="flex: 1.5;"><label>DATOS DE IDENTIFICACIÓN: NOMBRE DE LA IDENTIFICACIÓN</label><input type="text"></div>
+            <div class="field"><label>AUTORIDAD QUE LA EMITE</label><input type="text"></div>
+            <div class="field"><label>NÚMERO DE IDENTIFICACIÓN</label><input type="text"></div>
+        </div>
+
+        <div class="legend-box" style="page-break-before: always; margin-top: 15px;">
+            RESPECTO AL APARTADO DE BENEFICIARIO CONTROLADOR, Y EN CUMPLIMIENTO DE LO DISPUESTO EN EL ARTÍCULO 3, FRACCIÓN III DE LA LEY FEDERAL PARA LA PREVENCIÓN E IDENTIFICACIÓN DE OPERACIONES CON RECURSOS DE PROCEDENCIA ILÍCITA (LFPIORPI), DICHA INFORMACIÓN SERÁ INCORPORADA EN UN DOCUMENTO ANEXO, EL CUAL FORMARÁ PARTE INTEGRAL DEL EXPEDIENTE CORRESPONDIENTE.
+        </div>
+
+        <div class="section-title">DOCUMENTOS QUE SE ESTÁN ENTREGANDO PARA EL EXPEDIENTE ÚNICO DE IDENTIFICACIÓN</div>
+        
+        <div class="row"><div class="field"><label>I. IDENTIFICACIÓN OFICIAL</label><input type="text"></div></div>
+        <div class="row"><div class="field"><label>II. COMPROBANTE DE DOMICILIO</label><input type="text"></div></div>
+        <div class="row"><div class="field"><label>III. CONSTANCIA POR LA QUE SE ACREDITE QUE SE SOLICITÓ INFORMACIÓN ACERCA DEL DUEÑO BENEFICIARIO</label><input type="text"></div></div>
+
+        <div style="margin: 5px 0; font-size: 11px; font-weight: bold; text-transform: uppercase;">A continuación, indique con una "X" si se cuenta o no con dicho documento:</div>
+        <table class="doc-table">
+            <thead>
+                <tr>
+                    <th>DOCUMENTO</th>
+                    <th width="100" class="center">SI</th>
+                    <th width="100" class="center">NO</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>IV. CONSTANCIA DE CURP</td>
+                    <td class="center"><input type="text" style="width: 100%; text-align: center; border: none;"></td>
+                    <td class="center"><input type="text" style="width: 100%; text-align: center; border: none;"></td>
+                </tr>
+                <tr>
+                    <td>V. CONSTANCIA DE RFC</td>
+                    <td class="center"><input type="text" style="width: 100%; text-align: center; border: none;"></td>
+                    <td class="center"><input type="text" style="width: 100%; text-align: center; border: none;"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div id="sec-apoderado">
+            <div class="section-title">
+                EN CASO DE QUE EL ACTO SEA REALIZADO POR CONDUCTO DE UNA PERSONA APODERADA
+                <select class="toggle-select" id="apo-toggle" onchange="actualizarVisibilidad()">
+                    <option value="NO">NO APLICA</option>
+                    <option value="SI">SI APLICA</option>
+                </select>
+            </div>
+            <div id="apo-content" style="display: none;">
+                <div class="row"><div class="field"><label>VI. CARTA PODER O COPIA CERTIFICADA DEL MISMO POR FEDATARIO PÚBLICO (CUANDO SE ACTÚE A NOMBRE DE OTRA PERSONA)</label><input type="text"></div></div>
+                <div class="row"><div class="field"><label>VII. IDENTIFICACIÓN OFICIAL Y COMPROBANTE DE DOMICILIO DEL APODERADO</label><input type="text"></div></div>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 10px;">
+            <div class="field"><label>LOS DOCUMENTOS QUE NOT SE TIENEN, MISMOS QUE SON SEÑALADOS CON UNA "X"</label><input type="text"></div>
+        </div>
+
+        <div class="row">
+            <div class="field"><label>MANIFIESTO:</label><input type="text"></div>
+        </div>
+
+        <div class="signature-section">
+            <div class="sig-box">
+                <div class="sig-line" id="texto-firma">NOMBRE Y FIRMA DEL CLIENTE O USUARIO</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // SEGURIDAD
+        document.addEventListener('contextmenu', function(event) { event.preventDefault(); });
+        document.onkeydown = function(event) {
+            if (event.keyCode == 123 || (event.ctrlKey && event.shiftKey && event.keyCode == 73) || (event.ctrlKey && event.keyCode == 85)) {
+                return false;
+            }
+        };
+
+        // LÓGICA DE FIRMA INTELIGENTE EXACTA
+        function actualizarFirma() {
+            const nom = document.getElementById('input-nombre').value.trim();
+            const pat = document.getElementById('input-paterno').value.trim();
+            const mat = document.getElementById('input-materno').value.trim();
+            const firmaDOM = document.getElementById('texto-firma');
+            
+            if (nom !== "" && (pat !== "" || mat !== "")) {
+                const nombreCompleto = [nom, pat, mat].filter(Boolean).join(' ').toUpperCase();
+                firmaDOM.innerHTML = nombreCompleto;
+            } else {
+                firmaDOM.innerHTML = "NOMBRE Y FIRMA DEL CLIENTE O USUARIO";
+            }
+        }
+
+        document.getElementById('input-nombre').addEventListener('input', actualizarFirma);
+        document.getElementById('input-paterno').addEventListener('input', actualizarFirma);
+        document.getElementById('input-materno').addEventListener('input', actualizarFirma);
+
+        // CATÁLOGO COMPLETO DE MUNICIPIOS
+        const municipios = {
+            "Michoacán": ["Acuitzio","Aguililla","Álvaro Obregón","Angamacutiro","Angangueo","Apatzingán","Aporo","Aquila","Ario","Arteaga","Briseñas","Buenavista","Carácuaro","Coahuayana","Coalcomán","Coeneo","Cojumatlán de Régules","Contepec","Copándaro","Cotija","Cuitzeo","Charapan","Charo","Chavinda","Cherán","Chilchota","Chinicuila","Chucándiro","Churintzio","Churumuco","Ecuandureo","Epitacio Huerta","Erongarícuaro","Gabriel Zamora","Hidalgo","Huandacareo","Huaniqueo","Huetamo","Huiramba","Indaparapeo","Irimbo","Ixtlán","Jacona","Jiménez","Jiquilpan","Juárez","Jungapeo","Lagunillas","La Huacana","La Piedad","Lázaro Cárdenas","Los Reyes","Madero","Maravatío","Marcos Castellanos","Morelia","Morelos","Múgica","Nahuatzen","Nocupétaro","Nuevo Parangaricutiro","Nuevo Urecho","Numarán","Ocampo","Pajacuarán","Panindícuaro","Parácuaro","Paracho","Pátzcuaro","Penjamillo","Peribán","Purépero","Puruándiro","Queréndaro","Quiroga","Sahuayo","San Lucas","Santa Ana Maya","Salvador Escalante","Senguio","Susupuato","Tacámbaro","Tancítaro","Tangamandapio","Tangancícuaro","Tanhuato","Taretan","Tarímbaro","Tepalcatepec","Tingambato","Tingüindín","Tiquicheo","Tlalpujahua","Tlazazalca","Tocumbo","Tumbiscatío","Turicato","Tuxpan","Tuzantla","Tzintzuntzan","Tzitzio","Uruapan","Venustiano Carranza","Villamar","Vista Hermosa","Yurécuaro","Zacapu","Zamora","Zináparo","Zinapécuaro","Ziracuaretiro","Zitácuaro"],
+            "CDMX": ["Álvaro Obregón","Azcapotzalco","Benito Juárez","Coyoacán","Cuajimalpa de Morelos","Cuauhtémoc","Gustavo A. Madero","Iztacalco","Iztapalapa","La Magdalena Contreras","Miguel Hidalgo","Milpa Alta","Tláhuac","Tlalpan","Venustiano Carranza","Xochimilco"],
+            "Estado de México": ["Acambay","Acolman","Aculco","Almoloya de Alquisiras","Almoloya de Juárez","Almoloya del Río","Amanalco","Amatepec","Amecameca","Apaxco","Atenco","Atizapán","Atizapán de Zaragoza","Atlacomulco","Atlautla","Axapusco","Ayapango","Calimaya","Capulhuac","Coacalco de Berriozábal","Coatepec Harinas","Cocotitlán","Coyotepec","Cuautitlán","Chalco","Chapa de Mota","Chapultepec","Chiautla","Chicoloapan","Chiconcuac","Chimalhuacán","Donato Guerra","Ecatepec de Morelos","Ecatzingo","Huehuetoca","Hueypoxtla","Huixquilucan","Isidro Fabela","Ixtapaluca","Ixtapan de la Sal","Ixtapan del Oro","Ixtlahuaca","Xalatlaco","Jaltenco","Jilotepec","Jilotzingo","Jiquipilco","Jocotitlán","Joquicingo","Juárez","Lerma","Malinalco","Melchor Ocampo","Metepec","Mexicaltzingo","Morelos","Naucalpan de Juárez","Nezahualcóyotl","Nextlalpan","Nicolás Romero","Nopaltepec","Ocoyoacac","Ocuilan","El Oro","Otumba","Otzoloapan","Otzolotepec","Ozumba","Papalotla","La Paz","Polotitlán","Rayón","San Antonio la Isla","San Felipe del Progreso","San Martín de las Pirámides","San Mateo Atenco","San Simón de Guerrero","Santo Tomás","Soyaniquilpan de Juárez","Sultepec","Tecámac","Tejupilco","Temamatla","Temascalapa","Temascalcingo","Temascaltepec","Temoaya","Tenancingo","Tenango del Aire","Tenango del Valle","Teoloyucan","Teotihuacán","Tepetlaoxtoc","Tepetlixpa","Tepotzotlán","Tequixquiac","Texcaltitlán","Texcalyacac","Texcoco","Tezoyuca","Tianguistenco","Timilpan","Tlalmanalco","Tlalnepantla de Baz","Tlatlaya","Toluca","Tonatico","Tultepec","Tultitlán","Valle de Bravo","Villa de Allende","Villa del Carbón","Villa Guerrero","Villa Victoria","Xonacatlán","Zacazonapan","Zacualpan","Zinacantepec","Zumpahuacán","Zumpango","Cuautitlán Izcalli","Valle de Chalco","Luvianos","San José del Rincón","Tonanitla"],
+            "Guanajuato": ["Abasolo","Acámbaro","San Miguel de Allende","Apaseo el Alto","Apaseo el Grande","Atarjea","Celaya","Manuel Doblado","Comonfort","Coroneo","Cortazar","Cuerámaro","Doctor Mora","Dolores Hidalgo","Guanajuato","Huanímaro","Irapuato","Jaral del Progreso","Jerécuaro","León","Moroleón","Ocampo","Pénjamo","Pueblo Nuevo","Purísima del Rincón","Romita","Salamanca","Salvatierra","San Diego de la Unión","San Felipe","San Francisco del Rincón","San José Iturbide","San Luis de la Paz","Santa Catarina","Santa Cruz de Juventino Rosas","Santiago Maravatío","Silao de la Victoria","Tarandacuao","Tarimoro","Tierra Blanca","Uriangato","Valle de Santiago","Victoria","Villagrán","Xichú","Yuriria"],
+            "Jalisco": ["Acatic","Acatlán de Juárez","Ahualulco de Mercado","Amacueca","Amatitán","Ameca","San Juanito de Escobedo","Arandas","El Arenal","Atemajac de Brizuela","Atengo","Atenguillo","Atotonilco el Alto","Atoyac","Autlán de Navarro","Ayotlán","Ayutla","La Barca","Bolaños","Cabo Corrientes","Casimiro Castillo","Cihuatlán","Zapotlán el Grande","Cocula","Colotlán","Concepción de Buenos Aires","Cuautitlán de García Barragán","Cuautla","Cuquío","Chapala","Chimaltitán","Chiquilistlán","Degollado","Ejutla","Encarnación de Díaz","Etzatlán","El Grullo","Guachinango","Guadalajara","Hostotipaquillo","Huejúcar","Huejuquilla el Alto","La Huerta","Ixtlahuacán de los Membrillos","Ixtlahuacán del Río","Jalostotitlán","Jamay","Jesús María","Jilotlán de los Dolores","Jocotepec","Juanacatlán","Juchitlán","Lagos de Moreno","El Limón","Magdalena","Santa María del Oro","La Manzanilla de la Paz","Mascota","Mazamitla","Mexticacán","Mezquitic","Mixtlán","Ocotlán","Ojuelos de Jalisco","Pihuamo","Poncitlán","Puerto Vallarta","Villa Purificación","Quitupan","El Salto","San Cristóbal de la Barranca","San Diego de Alejandría","San Juan de los Lagos","San Julián","San Marcos","San Martín de Bolaños","San Martín Hidalgo","San Miguel el Alto","Gómez Farías","San Sebastián del Oeste","Santa María de los Ángeles","Sayula","Tala","Talpa de Allende","Tamazula de Gordiano","Tapalpa","Tecalitlán","Tecolotlán","Techaluta de Montenegro","Tenamaxtlán","Teocaltiche","Teocuitatlán de Corona","Tepatitlán de Morelos","Tequila","Teuchitlán","Tizapán el Alto","Tlajomulco de Zúñiga","Tlaquepaque","Tolimán","Tomatlán","Tonalá","Tonaya","Tonila","Totatiche","Tototlán","Tuxcacuesco","Tuxcueca","Tuxpan","Unión de San Antonio","Unión de Tula","Valle de Guadalupe","Valle de Juárez","San Gabriel","Villa Corona","Villa Guerrero","Villa Hidalgo","Yahualica de González Gallo","Zacoalco de Torres","Zapopan","Zapotiltic","Zapotitlán de Vadillo","Zapotlán del Rey","Zapotlanejo","San Ignacio Cerro Gordo"],
+            "Aguascalientes": ["Aguascalientes", "Jesús María", "Calvillo"],
+            "Baja California": ["Mexicali", "Tijuana", "Ensenada"],
+            "Baja California Sur": ["La Paz", "Los Cabos"],
+            "Campeche": ["Campeche", "Ciudad del Carmen"],
+            "Chiapas": ["Tuxtla Gutiérrez", "Tapachula", "San Cristóbal"],
+            "Chihuahua": ["Chihuahua", "Ciudad Juárez"],
+            "Coahuila": ["Saltillo", "Torreón"],
+            "Colima": ["Colima", "Manzanillo"],
+            "Durango": ["Durango", "Gómez Palacio"],
+            "Guerrero": ["Chilpancingo", "Acapulco"],
+            "Hidalgo": ["Pachuca", "Tulancingo"],
+            "Morelos": ["Cuernavaca", "Jiutepec"],
+            "Nayarit": ["Tepic", "Bahía de Banderas"],
+            "Nuevo León": ["Monterrey", "San Pedro Garza García"],
+            "Oaxaca": ["Oaxaca de Juárez"],
+            "Puebla": ["Puebla", "Tehuacán"],
+            "Querétaro": ["Querétaro", "San Juan del Río"],
+            "Quintana Roo": ["Cancún", "Playa del Carmen"],
+            "San Luis Potosí": ["San Luis Potosí"],
+            "Sinaloa": ["Culiacán", "Mazatlán"],
+            "Sonora": ["Hermosillo", "Ciudad Obregón"],
+            "Tabasco": ["Villahermosa"],
+            "Tamaulipas": ["Ciudad Victoria", "Reynosa"],
+            "Tlaxcala": ["Tlaxcala"],
+            "Veracruz": ["Xalapa", "Veracruz"],
+            "Yucatán": ["Mérida"],
+            "Zacatecas": ["Zacatecas"]
+        };
+
+        const edoSel = document.getElementById('edo-select');
+        const munSel = document.getElementById('mun-select');
+        
+        Object.keys(municipios).sort().forEach(e => { 
+            let o = document.createElement('option'); o.text = e; o.value = e; edoSel.add(o); 
+        });
+
+        function actualizarMunicipios() {
+            munSel.innerHTML = '<option value="">Seleccione...</option>';
+            if(municipios[edoSel.value]) {
+                municipios[edoSel.value].sort().forEach(m => { 
+                    let o = document.createElement('option'); o.text = m; o.value = m; munSel.add(o); 
+                });
+            }
+        }
+
+        function actualizarVisibilidad() {
+            const apoAplica = document.getElementById('apo-toggle').value === 'SI';
+            document.getElementById('apo-content').style.display = apoAplica ? 'block' : 'none';
+        }
+
+        function generarPDF() {
+            const elementoFormulario = document.getElementById('form-content');
+            
+            const nom = document.getElementById('input-nombre').value.trim();
+            const pat = document.getElementById('input-paterno').value.trim();
+            const mat = document.getElementById('input-materno').value.trim();
+            const nombreCompleto = [nom, pat, mat].filter(Boolean).join(' '); 
+            const nombreArchivo = nombreCompleto ? `Anexo 3 ${nombreCompleto}.pdf` : `Anexo 3 Identificacion.pdf`;
+            
+            document.querySelector('.controls').style.display = 'none';
+
+            const apoAplica = document.getElementById('apo-toggle').value === 'SI';
+            document.getElementById('apo-toggle').style.display = 'none';
+            if (!apoAplica) document.getElementById('sec-apoderado').style.display = 'none';
+
+            const inputsCambiados = [];
+            const inputsActivos = elementoFormulario.querySelectorAll('input, select');
+
+            inputsActivos.forEach(inp => {
+                if (inp.style.display !== 'none' && inp.id !== 'apo-toggle') {
+                    const span = document.createElement('span');
+                    span.innerText = inp.value || " ";
+                    span.style.borderBottom = "1px solid #bdc3c7";
+                    span.style.fontSize = "12px"; 
+                    span.style.display = "inline-block";
+                    span.style.width = "100%"; 
+                    span.style.minHeight = "15px"; 
+                    span.style.boxSizing = "border-box";
+                    
+                    if(inp.parentNode.className === 'center') {
+                        span.style.textAlign = 'center';
+                        span.style.borderBottom = 'none';
+                    }
+
+                    inp.parentNode.replaceChild(span, inp);
+                    inputsCambiados.push({ padre: span.parentNode, spanActual: span, inputOriginal: inp });
+                }
+            });
+
+            const opciones = {
+                margin: [5, 8, 8, 8],
+                filename: nombreArchivo,
+                image: { type: 'jpeg', quality: 1.0 },
+                html2canvas: { scale: 2, useCORS: true, scrollY: 0 }, 
+                jsPDF: { unit: 'mm', format: 'letter', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opciones).from(elementoFormulario).save().then(() => {
+                document.querySelector('.controls').style.display = 'flex';
+                document.getElementById('apo-toggle').style.display = 'inline-block';
+                document.getElementById('sec-apoderado').style.display = 'block';
+                actualizarVisibilidad(); 
+                inputsCambiados.forEach(item => { item.padre.replaceChild(item.inputOriginal, item.spanActual); });
+            }).catch(error => {
+                document.querySelector('.controls').style.display = 'flex';
+                document.getElementById('apo-toggle').style.display = 'inline-block';
+                document.getElementById('sec-apoderado').style.display = 'block';
+                actualizarVisibilidad();
+                inputsCambiados.forEach(item => { item.padre.replaceChild(item.inputOriginal, item.spanActual); });
+            });
+        }
+    </script>
+</body>
+</html>
