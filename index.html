@@ -29,6 +29,31 @@
             box-shadow: 0 0 15px rgba(0,0,0,0.3);
             box-sizing: border-box;
             margin: 0 auto;
+            position: relative; /* Agregado para la marca de agua */
+            overflow: hidden; /* Agregado para la marca de agua */
+        }
+
+        /* MARCA DE AGUA */
+        .marca-agua {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 650px; 
+            height: 650px;
+            background-image: url('https://i.postimg.cc/gJxG7j25/Logo-Extended-png.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0.08; /* Transparencia baja para no estorbar */
+            z-index: 0; 
+            pointer-events: none; /* Permite dar clic a los inputs que están encima */
+        }
+
+        /* Asegurar que el contenido esté por encima de la marca de agua */
+        .row, .section-title, .legend-box, .legal-text, .main-header, .signature-section, .actividad-row, .docs-grid {
+            position: relative;
+            z-index: 1;
         }
 
         .header-top {
@@ -128,16 +153,19 @@
         
         .toggle-select { font-size: 10px; margin-left: 10px; border: 1px solid #ccc; color: black; background: white; cursor: pointer; padding: 1px 4px; width: auto !important; }
     </style>
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/3NY9rgmB/Logo-Enhanced.png">
 </head>
 <body>
 
-    <div class="controls">
+    <div class="controls hide-on-pdf">
         <button class="btn-pdf" onclick="generarPDF()">DESCARGAR PDF</button>
         <button class="btn-clear" onclick="location.reload()">REINICIAR</button>
     </div>
 
     <div id="form-content">
-        <div class="header-top">Anexo 3 de las reglas de carácter general a que se refiere la Ley Federal para la Prevención e Identificación de Operaciones con Recursos de Procedencia Ilícita</div>
+        <div class="marca-agua"></div>
+
+        <div class="header-top" style="position: relative; z-index: 1;">Anexo 3 de las reglas de carácter general a que se refiere la Ley Federal para la Prevención e Identificación de Operaciones con Recursos de Procedencia Ilícita</div>
 
         <div class="main-header">
             <div class="logo-container">
@@ -372,7 +400,7 @@
             const nombreCompleto = [nom, pat, mat].filter(Boolean).join('_'); 
             const nombreArchivo = nombreCompleto ? `Expediente_Unico_${nombreCompleto}.pdf` : `Expediente_Unico.pdf`;
             
-            document.querySelector('.controls').style.display = 'none';
+            document.querySelectorAll('.hide-on-pdf').forEach(el => el.style.display = 'none');
 
             const apoAplica = document.getElementById('apo-toggle').value === 'SI';
             const benAplica = document.getElementById('ben-toggle').value === 'SI';
@@ -408,12 +436,12 @@
                 margin: [3, 8, 8, 8],
                 filename: nombreArchivo,
                 image: { type: 'jpeg', quality: 1.0 },
-                html2canvas: { scale: 2, useCORS: true }, 
+                html2canvas: { scale: 2, useCORS: true, scrollY: 0 }, 
                 jsPDF: { unit: 'mm', format: 'letter', orientation: 'portrait' }
             };
 
             html2pdf().set(opciones).from(elementoFormulario).save().then(() => {
-                document.querySelector('.controls').style.display = 'flex';
+                document.querySelectorAll('.hide-on-pdf').forEach(el => el.style.display = 'flex');
                 document.getElementById('apo-toggle').style.display = 'inline-block';
                 document.getElementById('ben-toggle').style.display = 'inline-block';
                 
@@ -428,7 +456,7 @@
             }).catch(error => {
                 console.error("Error al generar", error);
                 
-                document.querySelector('.controls').style.display = 'flex';
+                document.querySelectorAll('.hide-on-pdf').forEach(el => el.style.display = 'flex');
                 document.getElementById('apo-toggle').style.display = 'inline-block';
                 document.getElementById('ben-toggle').style.display = 'inline-block';
                 document.getElementById('sec-apoderado').style.display = 'block';
@@ -441,25 +469,7 @@
         }
 
         document.getElementById('fecha-actual').value = new Date().toLocaleDateString();
-        // 1. SISTEMA DE LOGIN (VENTANA DEL NAVEGADOR)
-      //  window.onload = function() {
-    //        let contrasenaCorrecta = "NOT129";
-  //          let accesoConcedido = false;
-//
-//            while (!accesoConcedido) {
-          //      let intento = prompt("🔒 Acceso Restringido.\nPor favor, ingresa la contraseña de la Notaría:");
-        //        
-           //     if (intento === contrasenaCorrecta) {
-         //           accesoConcedido = true;
-       //         } else if (intento === null) {
-       //             // Si le dan a "Cancelar", borramos la página para que no vean nada
-       //             document.body.innerHTML = "<h1 style='color:white; margin-top:50px; text-align:center;'>Acceso Denegado</h1>";
-        //            break;
-        //        } else {
-       //             alert("Contraseña incorrecta. Intenta de nuevo.");
-       //         }
-       //     }
-       // };
+
         // Bloquear click derecho
         document.addEventListener('contextmenu', function(event) {
             event.preventDefault();
