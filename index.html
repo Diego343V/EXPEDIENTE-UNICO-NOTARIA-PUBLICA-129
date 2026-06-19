@@ -300,6 +300,31 @@
                     </div>
                 </div>
 
+                <div id="sec-delegado">
+                    <div class="section-title">
+                        Delegado Especial
+                        <select class="toggle-select" id="del-toggle" onchange="actualizarVisibilidad()">
+                            <option value="NO">NO APLICA</option>
+                            <option value="SI">SI APLICA</option>
+                        </select>
+                    </div>
+                    <div id="del-content" style="display: none;">
+                        <div class="row">
+                            <div class="field" style="flex: 2;"><label>Nombre de la sociedad</label><input type="text"></div>
+                            <div class="field"><label>RFC de la sociedad</label><input type="text" style="text-transform: uppercase;"></div>
+                        </div>
+                        <div class="row">
+                            <div class="field"><label>Tipo de acto</label>
+                                <select>
+                                    <option value=""></option>
+                                    <option value="ASAMBLEA">ASAMBLEA</option>
+                                    <option value="RUA">RUA</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="section-title">Documentos Recabados</div>
                 <div class="docs-grid">
                     <div class="doc-item"><input type="checkbox"> Identificación Vigente</div>
@@ -329,7 +354,7 @@
 
         <div class="page-container">
             <div class="marca-agua"></div>
-            </div>
+        </div>
 
         <div class="page-container">
             <div class="marca-agua"></div>
@@ -519,7 +544,6 @@
             "Sonora": ["Hermosillo", "Ciudad Obregón", "Nogales", "San Luis Río Colorado"],
             "Tabasco": ["Villahermosa", "Cárdenas", "Comalcalco"],
             "Tamaulipas": ["Ciudad Victoria", "Reynosa", "Tampico", "Matamoros", "Nuevo Laredo"],
-            "Tamaulipas": ["Ciudad Victoria", "Reynosa", "Tampico", "Matamoros", "Nuevo Laredo"],
             "Tlaxcala": ["Tlaxcala", "Apizaco", "Huamantla"],
             "Veracruz": ["Xalapa", "Veracruz", "Boca del Río", "Coatzacoalcos", "Córdoba", "Orizaba"],
             "Yucatán": ["Mérida", "Valladolid", "Progreso", "Kanasín"],
@@ -545,9 +569,11 @@
         function actualizarVisibilidad() {
             const apoAplica = document.getElementById('apo-toggle').value === 'SI';
             const benAplica = document.getElementById('ben-toggle').value === 'SI';
+            const delAplica = document.getElementById('del-toggle').value === 'SI';
             
             document.getElementById('apo-content').style.display = apoAplica ? 'block' : 'none';
             document.getElementById('ben-content').style.display = benAplica ? 'block' : 'none';
+            document.getElementById('del-content').style.display = delAplica ? 'block' : 'none';
         }
 
         function generarPDF() {
@@ -563,12 +589,15 @@
 
             const apoAplica = document.getElementById('apo-toggle').value === 'SI';
             const benAplica = document.getElementById('ben-toggle').value === 'SI';
+            const delAplica = document.getElementById('del-toggle').value === 'SI';
             
             document.getElementById('apo-toggle').style.display = 'none';
             document.getElementById('ben-toggle').style.display = 'none';
+            document.getElementById('del-toggle').style.display = 'none';
 
             if (!apoAplica) document.getElementById('sec-apoderado').style.display = 'none';
             if (!benAplica) document.getElementById('sec-beneficiario').style.display = 'none';
+            if (!delAplica) document.getElementById('sec-delegado').style.display = 'none';
 
             const inputsCambiados = [];
             const inputsActivos = elementoFormulario.querySelectorAll('input, select');
@@ -576,7 +605,7 @@
             inputsActivos.forEach(inp => {
                 if(inp.type === 'checkbox') {
                     inp.style.opacity = "1"; 
-                } else if (inp.style.display !== 'none' && inp.id !== 'apo-toggle' && inp.id !== 'ben-toggle') {
+                } else if (inp.style.display !== 'none' && inp.id !== 'apo-toggle' && inp.id !== 'ben-toggle' && inp.id !== 'del-toggle') {
                     const span = document.createElement('span');
                     
                     let textValue = inp.value || " ";
@@ -626,8 +655,10 @@
             document.querySelectorAll('.hide-on-pdf').forEach(el => el.style.display = 'flex');
             document.getElementById('apo-toggle').style.display = 'inline-block';
             document.getElementById('ben-toggle').style.display = 'inline-block';
+            document.getElementById('del-toggle').style.display = 'inline-block';
             document.getElementById('sec-apoderado').style.display = 'block';
             document.getElementById('sec-beneficiario').style.display = 'block';
+            document.getElementById('sec-delegado').style.display = 'block';
             actualizarVisibilidad(); 
             inputsCambiados.forEach(item => { item.padre.replaceChild(item.inputOriginal, item.spanActual); });
         }
